@@ -22,17 +22,35 @@
 
     .text {
       max-width: 600px;
+      min-width: 300px;
       margin: auto;
       padding: 2rem;
+    }
+
+    .intro-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1.2rem;
+      max-width: 750px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-wrap: nowrap;
+    }
+
+    .intro-text {
+      flex: 1;
+      min-width: 300px;
     }
 
     .project-container {
       display: flex;
       flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      margin: 2rem 0;
+      align-items: flex-start;
+      gap: 1.2rem;
+      max-width: 750px;
+      margin: 2rem auto;
+      padding: 0 1rem;
       flex-wrap: nowrap;
     }
 
@@ -71,7 +89,7 @@
       opacity: 1;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 600px) {
       .project-container {
         flex-direction: column;
       }
@@ -88,11 +106,12 @@
     }
 
     .image-grid {
+      float: right;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      max-width: 400px;
-      margin: 2rem auto;
+      max-width: 350px;
+      margin: 1rem 0 0.5rem 1rem;
     }
 
     .image-grid img {
@@ -111,8 +130,14 @@
   <div class="title">
     <h1>Grace Gerwe</h1>
   </div>
-  <div class="project-container">
-    <div class="project-text">
+  <div class="intro-container">
+    <div class="intro-text">
+      <div class="image-grid">
+        <img src="assets/top1.png" alt="Image 1">
+        <img src="assets/iron2.jpg">
+        <img src="assets/iron3.jpg">
+        <img src="assets/top3.jpg" alt="Image 3">
+      </div>
       <p>Hi! I make BCIs and do endurance sports.</p>
       <p>My long term ambition is to build <b>perfect empathy</b>: a way to literally feel what someone else is feeling.
       </p>
@@ -127,26 +152,18 @@
           href="https://medicine.yale.edu/profile/nita-ahuja/" target="_blank" rel="noopener noreferrer">Ahuja Lab</a>,
         worked for <a href="https://www.models1.co.uk/" target="_blank" rel="noopener noreferrer">Models1</a> and took
         care of the chickens on the Yale Farm.</p>
-      <p>I speak 5 languages fluently and have lived in 7 countries.</p>
-      <p>I also shaved my head as a social experiment, only listen to hardcore EDM, regularly polar plunge, and in
+      <p>I shaved my head as a social experiment, only listen to hardcore EDM, regularly polar plunge, and in
         general
         pursue the extremes of the human experience.</p>
+      <p>I speak 5 languages fluently and have lived in 7 countries.</p>
       <p>My daily hardware log can be seen <a href="https://gracegerwe.com/projectlog/" target="_blank"
           rel="noopener noreferrer">here</a>.</p>
       <p><b>Only dead fish go with the flow.</b></p>
       <br>
     </div>
-    <div class="image-grid">
-      <img src="assets/top1.png" alt="Image 1">
-      <img src="assets/iron2.jpg">
-      <img src="assets/iron3.jpg">
-      <img src="assets/top3.jpg" alt="Image 3">
-    </div>
   </div>
 
-  <p>
-  <h2><b>Past Projects:</b></h2>
-  </p>
+  <h2 style="text-align: center; margin-top: 3rem;">Past Projects:</h2>
 
   <div class="project-container">
     <div class="project-slideshow">
