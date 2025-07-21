@@ -1,6 +1,5 @@
 name = "personal-site"
 compatibility_date = "2022-07-12"
-type = "javascript"
 
 [site]
 bucket = "./"
