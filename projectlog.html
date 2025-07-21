@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Building physical things</title>
+  <link rel="icon" href="assets/favicon-32x32.png" type="image/png">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 40px;
+    }
+    .entry {
+      display: flex;
+      margin-bottom: 30px;
+    }
+    .date {
+      font-weight: bold;
+      width: 160px;
+      flex-shrink: 0;
+    }
+    .text {
+      flex-grow: 1;
+    }
+    ul {
+      margin: 0;
+      padding-left: 0;
+      list-style-position: inside;
+    }
+    ul ul {
+      padding-left: 1em;
+    }
+    p, ul, li, h2, h3, h4 {
+      font-family: inherit;
+      font-size: 1em;
+    }
+    .wrap-image {
+      float: right;
+      margin-left: 20px;
+      margin-bottom: 10px;
+      width: 300px; /* adjust as needed */
+      border-radius: 10px; /* optional: gives the image rounded corners */
+    }
+    @media (max-width: 600px) {
+      .wrap-image {
+        float: none;
+        display: block;
+        margin: 20px auto;
+      }
+    }
+    .wrap-video {
+      float: right;
+      margin-left: 20px;
+      margin-bottom: 10px;
+      aspect-ratio: 3 / 3;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>I am on a quest to learn how to build physical things.</h1>
+
+  <div class="text">
+      <p>Being able to work at the intersection of digital and physical will be the most critical ability of our generation.</p>
+      <p>I spent a few weeks improving my skillset across firmware, computational geometry and robotics.</p>
+      <p>See my <a href="https://github.com/gracegerwe" target="_blank" rel="noopener noreferrer">GitHub</a> & <a href="https://gracegerwe.com/" target="_blank" rel="noopener noreferrer">website</a> for more details.</p>
+      <p>Here's what I got done each day:</p>
+      <br>
+  </div>
+
+  <div class="entry">
+    <div class="date">May 1, 2025</div>
+    <div class="text">
+      <video controls loop class="wrap-video">
+        <source src="assets/roachies.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+        Two roboroaches successfully deployed. Jack and Jill. The stimulation worked some of the time, they adapted quick and the effect wore off. I learned animal husbandry, surgery, and implanted BCIs into living beings. This concludes this series of experiments.
+      </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 30, 2025</div>
+    <div class="text">
+      Built a <a href="https://github.com/gracegerwe/shipwreck_search" target="_blank" rel="noopener noreferrer">shipwreck search</a> app that lets users look up famous wrecks like the Titanic and instantly get historical summaries, using the Wikipedia API behind the scenes. The backend is a FastAPI server deployed on Render, which queries Wikipedia and logs search data to Supabase. 
+      <p>At first, I had issues because I deployed the root project instead of just the frontend (in the <code>shipwreck-frontend</code> folder), which led to 404 errors on Vercel. Once I redeployed from the correct directory and updated the API URL in my frontend, everything worked. I also set up a custom domain at <a href="https://shipwreck.gracegerwe.com/" target="_blank" rel="noopener noreferrer">shipwreck.gracegerwe.com</a> by pointing my DNS records to Vercel.</p>
+      </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 24, 2025</div>
+    <div class="text">
+      <img src="assets/jack.png" class="wrap-image">
+      I have begun cockroach BCI experiments. The goal is to control where they go via an app on my phone. Welcome to the fam, Jack, Jill and Amy! 
+      <p>Both Jack and Jill successfully underwent surgery, Jack moreso than Jill. Tonight, they are recovering, and the results will be tested tomorrow. Amy is our control for now. Surgery consisted of attaching 3 electrodes to each roach, one to each of their antennas, and one to a small hole in their shell which will serve as "ground". This is a very useful exercise to learn animal husbandry and surgical procedure.</p>
+      </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 23, 2025</div>
+    <div class="text">
+      Learnt about how to turn a blob of metal into a part. Covered process engineering concepts including takt time, how to structure and scale a production line, different kinds of metals/alloys, forming, casting, molding, machining and joining processes.  
+      </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 22, 2025</div>
+    <div class="text">
+      Talked to two leading spinal cord stimulation academics. Was very dissapointed with the lack of urgency from one of them. The other was extremely competent and explained that a μECoG implant in the brain will definitely be what the field progresses towards, in addition to just the spinal cord stimulator. This is because on its own, the spinal implants have very basic stimulation algorithms, as walking is a predictable, repetitive movement. But if you want anything more complex, such as standing, leaning, shifting, etc, a brain chip is necessary to switch between those functions fluidly.
+      <p>He also explained the mechanism of action for the current spinal cord stimulators and that the only company that is really trying to commercialize this in Switzerland has merely 16 channels on their stimulator.</p>  
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 21, 2025</div>
+    <div class="text">
+      <img src="assets/twoarms.png" class="wrap-image">
+      Assembled second arm of the robot. Did a deep dive on treasure hunting (pun intended). There is $200 billion on the ocean floor that no one has bothered to pick up or discover. Main barriers seem to be primarily legal - you have to get deals with governments to make sure they don't lay claim to all of it once you bring something up, and that you get a fair share.
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 20, 2025</div>
+    <div class="text">
+      Researched marine animal BCI applications. 75% of the worlds oceans are unmapped - we've mapped more of Mars! We're missing out on massive opportunities in food, medicine, minerals, and treasure. Some possible ideas are putting cameras / sensors on whales or sharks and using their natural migrating patterns to get better maps. Challenges would be power and signal transmission. 
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 19, 2025</div>
+    <div class="text">
+      Spent the day researching spinal cord stimulation and giving paralysis patients the ability to walk again. Then had dinner with a friend & he had the crazy idea to put BCIs on octopi for marine exploration. Kept me up all night.
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 18, 2025</div>
+    <div class="text">
+      <img src="assets/onearm.png" class="wrap-image">
+      Removed gear from half of the servos. Assembled the leading arm of LeRobot. 3D printing additional parts.
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 17, 2025</div>
+    <div class="text">
+      Linked yesterday's algos to a visualization tool with Three.js and React. 
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 16, 2025</div>
+    <div class="text">
+      Worked on 3D shape feature extraction algorithms. Details confidential.   
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 15, 2025</div>
+    <div class="text">
+      Added fault injection and detection logic, including actuator jamming, watchdog-style logic and input parsing. Expanded to multi-actuator sequencing.
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 14, 2025</div>
+    <div class="text">
+      Built a simple control loop in C that moved a simulated actuator from position A to B using a state machine with idle, moving and fault states.
+      <p>Replaced hardcoded actuator logic with a HAL.</p>
+      <p>Learned how to structure deterministic logic in embedded-style firmware and how to organize testable, scalable code.</p>
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 13, 2025</div>
+    <div class="text">
+      Installed LeRobot software and configured all 12 servos. This meant connecting the servo bus to the computer, and then one by one manually running a script for each servo assigning it an ID.
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 12, 2025</div>
+    <div class="text">
+      All <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener noreferrer">LeRobot</a> equipment has arrived by now, Sully & I have been 3D printing all of the components. 
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 11, 2025</div>
+    <div class="text">
+      Flew back from London to SF. Read <a href="https://www.amazon.com/Head-Cases-Stories-Injury-Aftermath/dp/0374531951" target="_blank" rel="noopener noreferrer">Head Cases</a> cover to cover. Very gripping, you should read it. 
+      <p>Also learned about self replicating <a href="https://www.youtube.com/watch?v=YDjOS0VHEr4" target="_blank" rel="noopener noreferrer">robots</a> & the future of fabrication. Most interesting insight was how much robotics can pull from biology: the birth of computerized digital manufacturing was 4 billion years ago, with the ribosome. That is the little robot that makes all of the components that make up the big robot (us)! And ribosomes also makes more ribosomes.</p>
+      <p>The building blocks for all of life are 20 amino acids. There should be the same for manufacturing. There needs to be, if we want to get to mars without a crazy amount of luggage.</p>
+      <p>I am now very glad that I majored in molecular biology.</p>
+   </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">April 10, 2025</div>
+    <div class="text">
+      <video controls loop class="wrap-video">
+        <source src="assets/eigen_step.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      Today I built a tool to simulate CMM flatness probing using least squares plane fitting and point sampling from STEP geometry — visualized in MeshLab. 
+      <p>Woo! Many fancy words! Let's break it down.</p> 
+      <p>The program loads a STEP file, finds faces, samples points on that face as if it were a probe, calculates a deviation, and then exports a report explaining whether the surfaces was within the allowable deviation or not (pass/fail). That is what you do in CMM tolerancing. The program also exports a <code>.ply</code> that you can visualize! So you can see it! With your eyes!</p> 
+      <p>This time I started extremely simple and then built up, rather than make the mistakes of the dreaded black screen visualizer where I went too complex.</p>
+      <p>First we set up CMake to use my local OCCT build. Had some minor compile errors but they were a super quick fix as I've had them before.</p>
+      <p>Then we loaded my trusty Servo Horn STEP file, downloaded & set up MeshLab. Initial script was literally: find one surface, put a neat 10x10 grid of probes on it in a defined bounding box, and give it a position on a 3D plane.</p>
+      <p>Once that worked and I confirmed the STEP loaded, sampling worked, and the file exported well, then I included a feature that doesn't just pick a rectangular bounding box on a flat surface but actually correctly probes across that entire surface, showing its true shape.</p>
+      <p>Then, I added a loop that went through every single surface on the file, took the 5 biggest ones based on surface area, and exported all of those at the same time into MeshLab. That way I could visualize the actual servo horn.</p>
+      <p>Finally, once I had that, I incorporated <code>eigen</code> math to fit a best-fit plane for the 5 biggest faces, computed their deviations and color-coded them, green = pass, red = fail.</p>
+      <p>And voila! A real CMM tool built from scratch in one day.</p>
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 9, 2025</div>
+    <div class="text">
+      Decided to try a different visualizer tool & <a href="https://gracegerwe.com/step_visualizer/" target="_blank" rel="noopener noreferrer">succeeded in building it</a>!! Even if I fixed the black screen bug, MacOs is not easily integrated with Qt and OCCT. For that black screen problem, a number of things could have been wrong.
+      <p>For example perhaps <code>initializeGL()</code> was happening too early, a mistake that happens when the valid handle is returned only after the native widget is created.</p>
+      <p>Or, the viewer never actually attaches to a real OpenGL surface and is just rendering to an offscreen buffer, then blitsing to the screen, whereas OCCT assumes it's rendering directly to a native window, causing the redraw not to show.</p> 
+      <p>Either way, I found a repo online called Foxtrot and decided to use that instead. Downloaded and configured Rust, spent some time trying to figure out how to deploy the library onto Github.</p> 
+      <p>First tried using GitHub pages, got bogged down, then tried CloudFlare, which was also acting up, and then I went back to square 1 and thought: what is the easiest possible thing I could do?</p> 
+      <p>That thing turned out to be directly deploying the Web app on my computer (aka creating a Docs folder and copying all of the Wasm folder into there) and then pushing it to GitHub.</p>
+      <p>And it worked!! Yayyy!!! See demo above, repo <a href="https://github.com/gracegerwe/step_visualizer" target="_blank" rel="noopener noreferrer">here</a>.</p>
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 8, 2025</div>
+    <div class="text">
+      Spent the whole day trying to fix the black popup bug, unsuccessfully. Tried many, many things, including linker errors, build issues, context failure, initialization, and more.
+      <p>At first, the view was null in painGL(), meaning my OCCT view was not being correctly assigned. I fixed that, but it did little.</p>
+      <p>I also looked into the rendering time, tried adding a frame buffer and many debugging prints in between, some of them timed, and succeeded in making the screen flash the correct thing more often, but still the baseline was black.</p>
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 7, 2025</div>
+    <div class="text">
+      <video controls loop class="wrap-video">
+        <source src="assets/v1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      I got the visualizer to build properly! The stream of errors was caused by <code>Cocoa_Window</code> needing objective C. Instead of incorporating that into my build and cluttering it all over again, I decided to just switch to <code>Open_GL</code> and Qt's native window that's already directly supported by OCCT
+      CT.
+      <p>Once I made that switch, then it was just missing symbol and class redefinition errors. Had to add a few headers, reconfigure the CMake a bit to include Qt6 libraries, updated inheritance across files, and then... could build, but got a runtime crash.</p>
+      <p>The app crashed on launch, even though it built and linked, because <code>viewer->loadSTEP()</code> was called in the constructor before <code>OpenGL</code> was ready, so <code>context</code> was still <code>nullptr</code>. Just had to delay <code>loadSTEP()</code>.</p>
+      <p>After some final cleanup, it builds and shows a black popup. When I expand or shrink the window with my mouse, you can see the STEP file inside - otherwise, the screen is black. But it's getting closer! Yay!</p>
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 6, 2025</div>
+    <div class="text">
+      <img src="assets/firststep.png" class="wrap-image">
+      Today I got feature extraction working from real STEP files and set up CAM toolpath logic! Below is the breakdown of the steps (pun intended). 
+      <p>First learned how STEP files are set up and the type of information that's in them: everything is written in EXPRESS, and each line starts with a # and a number, and refers to a piece of information about the object (a line, surface, hole, etc). Basically, information on each component and how they are meant to be assembled together.</p>
+      <p>It took me quite a while to be able to read STEP files properly. Ran into mainly compiler issues, trying to read source files as executables, for example. (Source code is the human-readable instructions written in a programming language like C++, while an executable is the machine-readable program created by compiling that source code so the computer can run it.)</p>
+      <p>The main issue turned out to be goofball MacOS sandboxing my terminal & VSCode, aka not giving it permission to access my Downloads. Just had to change my settings and... voila! 1 solid, 1 shell, 61 faces, 168 edges and 112 vertices :)</p>
+      <p>After that it was very easy to analyze full shape hierarchies, create a new <code>struct</code>, find feature locations in 3D space, clean up the CLI (command line interface) output, and begin to generate CAM operations based on feature characteristics.</p>
+      <p>Some of the classes/enums I used were <code>BrepAdaptor_Surface</code>, <code>TopExp_Explorer</code>, <code>TopAbs_FACE</code>, <code>TopoDS_Shape</code>, <code>GeomAbs_SurfaceType</code>, <code>UVBounds()</code> and <code>.Value(u, v)</code>.</p>
+      <p>THEN I decided I needed something a bit harder and got started on a visualizer - a 3D application layer so that I could render and see the toolpath, not just output lines on my terminal.</p>
+      <p>Initial setup was pretty easy, I installed Qt via Homebrew and linked it with OCCT in my CMake file. I also added logic for two different executables, and additional .cpp and .hpp files to support the new popup screen. But then again I had to wrestle with quite a few errors.</p>
+      <p>Specifically, <code>WNT_Window</code> was Windows only and it broke the build on my MacOS. <code>Cocoa_Window(disp, winID)</code> gave constructor mismatch, so I tried multiple things, like changing it to <code>NSView</code> and using <code>Aspect_Window</code>. I was able to solve this error, but was getting a stream of symbols instead of a proper build.</p>
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 5, 2025</div>
+    <div class="text">
+      Was extremely jet lagged as I hadn't really slept in 48h. Slept pretty much the entire day.  
+    </div>
+   </div>
+  
+  <div class="entry">
+    <div class="date">April 4, 2025</div>
+    <div class="text">
+      Landed & surprised my brother, he's directing & starring in his first play in a public theatre. He's 15. I come from a family of overachievers.  
+    </div>
+   </div>
+  
+  <div class="entry">
+    <div class="date">April 3, 2025</div>
+    <div class="text">
+      Spent 10h flight to London watching a ton of YouTube videos on manufacturing, the history of machining, how metals are structured & CNC machines. Did you know that factories in the US used to be the center of the community? They used to have picnics, host events, etc. 
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 2, 2025</div>
+    <div class="text">
+      Got totally nerd sniped and spent the morning rewriting my personal website. Looks simpler, cleaner, with more accurate information.
+      <p>Afternoon was a looooong debugging session. Main goal was to continue to set up the C++ computational geometry libraries that I want. Went through quite a few problems.</p>
+      <p>First I realized that the OpenCascade version I'd installed from homebrew didn't have the libraries I needed. So I uninstalled that version and had to rebuild the geometry engine from the source.</p>
+      <p>Downloading OpenCascade from the website from 2.5GB, so I first tried to download only the parts of it that I needed to support CAD/CAM/GD&T logic but leave out a GUI, OpenGL, viewers and doc system that would take up uneccessary space.</p>
+      <p>The build succeeded, but when I ran <code>make install</code> it failed midway because it expected FreeType headers (for GUI/fonts), which weren’t installed. So I deleted the build and started over with more specific CMake instructions to specifically avoid that.</p>
+      <p>Then, once <code>make install</code> worked, I was still getting IntelliSense VSCode errors, and tried multiple things to troubleshoot the C++ add on, even creating an additional <code>.json</code> file.</p> 
+      <p>Then I accidentaly ran <code>rm -rf</code> on not just the build folder but the entire project github repo and deleted everything like an idiot. And I hadn't pushed it.
+      <p>So I had to rewrite everything, & then I had different errors with VSCode not finding specific libraries (<code>TKSTEP</code> especially). What came next was 3 more times of deleting and redownloading OpenCascade from the OG repo, each time downloading more of it until I downloaded the entire 2.5GB file. But even once I did that, it still couldn't find <code>TKSTEP</code>. I tried compiling with <code>TKDESTEP</code> instead and it worked.</p> 
+    </div>
+   </div>
+
+  <div class="entry">
+    <div class="date">April 1, 2025</div>
+    <div class="text">
+      Set up GitHub repo structure (<code>models/</code>, <code>src/</code>, <code>main.cpp</code>, <code>bin/</code>, etc). Installed CMake and wrote <code>CMakeLists.txt</code> file.
+      <p>Learned about different compilers (Clang, GCC, Visual Studio) and configured Clang because I use Mac, it’s preinstalled, will produce faster & more optimized binaries, and has better diagnostics (error & warning messages).</p>
+      <p>Spent a loooong time trying to solve a bug wherein the compiler couldn't find OpenCascade header files (specifically gp_Pnt.hxx). </p>
+      <p>Some approaches I took were: verifying that files existed, manually setting the include and library paths, reconfiguring VSCode IntelliSense, rewriting the .json files, adding fallback include paths, testing manual compilation, etc.</p>
+      <p>What ended up working was changing the include statement in the <code>main.cpp/</code> file. A tiny and simple fix that took a long time to get to and was so satisfying in the end.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 31, 2025</div>
+    <div class="text">
+      <img src="assets/fusion360.png" class="wrap-image">
+      Set up dev environment for CAM, to take my CAD files to the next level. 
+      <p>Installed Fusion360, CadQuery & a CadQuery GUI Editor. The Editor looked like it was from 2007. In the process downloaded and learned how to use Conda, and then realized that CadQuery is just a Python wrapper around OpenCascade.</p>
+      <p>Downloaded OpenCascade and wrote C++ in VSCode.</p>
+      <p>Exported a STL file from Waffle Bot's Onshape environment into Fusion 360, converted it into a mesh, and simulated 2D Pockets & Contour (wow this is so cool).</p>
+      <p>Exported the toolpath as g-code, read it in VSCode, and visualized it in NV Viewer!!</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 30, 2025</div>
+    <div class="text">
+      <img src="assets/newsetup.png" class="wrap-image" alt="Waffle Bot">
+      Spent 4h organizing my flat and unpacking everything I hadn't unpacked since I moved. Environment makes a huge difference. It was a mess and took way longer than I thought but now it looks sick. Yeah, I can lock myself in here to build 24/7 😎
+      <p>Added details and entries for the last week on this site. Went through 3 iterations to implement proper image, bullet point and paragraph formatting. It took time to compile all of the information into the log, it will go so much faster in the future as I just update it daily.</p>
+      <p>3D printed the leverage robot arm so that I could study it in real life. (It had the STL but not the STEP files so I couldn't really see what was going on.)</p>
+    </div>
+  </div>
+  
+  <div class="entry">
+    <div class="date">March 29, 2025</div>
+    <div class="text">
+      Most of the day was spent debugging servo connection to the Raspberry Pi. After battling with improper grounding, dead or zombie servos, power starvation and weak jumper wires, I was able to wire a DC power supply to the servos that survived (RIP 4 HS-311s that I probably broke by twisting them around too much during assembly). Now I know how to diagnose low/no current draw conditions, debug power delivery with a bench supply, PWM logic and signal grounding.</p>
+      <p>Even with a few servos working with the extra power supply, they were still too weak to move the arm. I spent the rest of the evening looking at other robot models to base my redesign off of. I <a href="https://www.youtube.com/watch?v=lzpDfuEe7JU" target="_blank" rel="noopener noreferrer">found one</a> that uses servos at the base + a lot of leverage, and decided to use that one as my example for v2.</p>
+      <p>I designed servo hats for MG995s, two versions of a v2 arm component, and 1 version of the v2 base.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 28, 2025</div>
+    <div class="text">
+      <img src="assets/wafflebotv1.png" class="wrap-image">
+      Finished first full version of the WaffleBot, assembled and connected it to the Raspberry Pi, and found that the HS-311 servos did not have enough torque / arm was too heavy so they couldn't lift it up properly.
+      <p>Also spent 3.5h in the morning at a contract manufacturer seeing every step of the PCBA process, including BOM, procurement, SMT assembly, stencil printing, pick-and-place, ovens longer than my bedroom, through-hole, optical inspection and more.</p>
+      <p>This CM sets themselves apart by always shipping their products on time and having a rework rate of <0.1%. For reference, most CMs have rework rates in the mid-double digits and are regularly 6-8 weeks late. The guys I visited are of the highest caliber.</p>
+      <p>Their trick is to have tests and checks at every single step of the process. It is actually not adding more work - it saves time and money by catching mistakes as early as possible.</p>
+      <p>My host had been brought in to increase efficiency of the factory by automating as much as possible. I haven't met anyone with more integrity or craft. He carefully explained to me the parts of the process that need to be done by hand, and others that could be automated. He let me sit in on meetings where he trained his team and developed software towards these goals. The most curious thing I noticed was that he always asked how much time something took, and his employees responded down to the minute, usually between 2-15.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 27, 2025</div>
+    <div class="text">
+      <video controls loop class="wrap-video">
+        <source src="assets/gripperv2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      Found a different gripper online, 3D printed and assembled it, designed the wrist joint and mount that it would attach to.
+      <p>Ordered additional M1 screws for horns and sticky soles that I can add to the robot base to make it even sturdier.</p> 
+      <p>Discovered the mirror tool in CAD which makes my 2D drawings so much faster.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 26, 2025</div>
+    <div class="text">
+      <img src="assets/firstarmpart.png" class="wrap-image">
+      Am finding locking a bit difficult. So far am designing all of the components with holes for screws and manually screwing them in with hex nuts on the other side, but sometimes the parts are so small that it gets inconvenient to attach them. Don't quite understand yet how to drop a lock nut into a print / make threaded inserts, but I don't think I'll need that for this version.
+      <p>Designed and added the first part of the arm to the assembly.</p>
+      <p>Also designed the elbow and second arm part.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 25, 2025</div>
+    <div class="text">
+      <img src="assets/basev2.png" class="wrap-image">
+      Learned how to design parts in context and import STEP files of specific components from the internet. Also learned fasten/revolute mates and made my first assembly. 
+      <p>Learned how to make holes in CAD. Game changer.</p>
+      <p>Built v2 of the Waffle Bot base, this time not just a cubic block of PLA with a rectangular cavity in it (lol) but one properly optimized for sturdiness, attachment to the servo and quick 3d printing. Also designed my own servo horns because I didn't have small enough screws for the ones that came with my servos. Went through 3 versions. Was able to create ridges that attached onto the servo perfectly.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 24, 2025</div>
+    <div class="text">
+      <img src="assets/wafflebotv0.png" class="wrap-image">
+      I had pain in my hip which turned out to be a torn labrum so I spent the last few days in the hospital / battling with insurance / getting ortho advice / recovering. So the last few days are blank but now I'm back!
+      <p>Sketched out how Waffle Bot needs to look like and made some measurements relative to the size of the toaster and a waffle. Realized 3DOF will make it very hard for Waffle Bot to pick up waffles so I started working on a 5 DOF design.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 18, 2025</div>
+    <div class="text">
+      Read up on DOF and studied how others have built their robots. I decided I want to start as simple as possible with 3 DOF.
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 17, 2025</div>
+    <div class="text">
+      Got bogged down trying to assemble the servo gripper before realizing the print was missing two parts. Even after printing those wasn’t able to assemble it, turned out that the stl design was faulty and the holes for screws and hex nuts were size mismatched. Don't trust the internet I guess.
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 16, 2025</div>
+    <div class="text">
+      Downloaded and set up Raspberry Pi environment. To do that I first pinged RPi via local host name on my network, then via IP address.
+      <p>Set up shortcuts to be able to securely SSH instantly. Used ZeroTier to connect my Pi to a network ID, generated a new private & public key, renamed the RPi localhost and set up passwordless login. Set up first test <code>.py</code> and <code>.txt</code> files.</p>
+      <p>Printed a servo gripper off the internet and 1/4 of all <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener noreferrer">LeRobot</a> components and then realized I don’t have the right motors or a few other pieces. Ordered them, but some parts will take ~2 weeks to arrive. Decided to design my own robot from scratch.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="date">March 15, 2025</div>
+    <div class="text">
+      Assembled my BambuLab 3d printer!
+    </div>
+  </div>
+
+</body>
+</html>
