@@ -1,14 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grace Gerwe</title>
-    <link rel="canonical" href="https://www.linkedin.com/in/gracegerwe/">
-    <meta http-equiv="refresh" content="0; url=https://www.linkedin.com/in/gracegerwe/">
-    <script>location.replace("https://www.linkedin.com/in/gracegerwe/");</script>
-  </head>
-  <body>
-    <p>Redirecting to <a href="https://www.linkedin.com/in/gracegerwe/">Grace Gerwe on LinkedIn</a>.</p>
-  </body>
+<html lang="{{ site.lang | default: " en-US" }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Grace Gerwe</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style>
+    body {
+      background-color: white;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      color: #111;
+      margin: 0;
+      padding: 0;
+    }
+
+    .text {
+      max-width: 600px;
+      min-width: 300px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .intro-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1.2rem;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-wrap: nowrap;
+    }
+
+    .intro-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .project-container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.2rem;
+      max-width: 750px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-wrap: nowrap;
+    }
+
+    .project-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .project-text p:first-of-type {
+      margin-top: 0;
+    }
+
+    .project-slideshow {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .project-slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .project-slideshow img:nth-child(1) {
+      opacity: 1;
+    }
+
+    .project-slideshow:hover img:nth-child(1) {
+      opacity: 0;
+    }
+
+    .project-slideshow:hover img:nth-child(2) {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .project-container {
+        flex-direction: column;
+      }
+
+      .project-slideshow {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 3;
+      }
+
+      .project-text {
+        width: 100%;
+      }
+    }
+
+    .image-grid {
+      float: right;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      max-width: 350px;
+      margin: 1rem 1rem 1rem 1rem;
+    }
+
+    .image-grid img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+
+</head>
+
+<body>
+  <br>
+  <div class="title">
+    <h1>Grace Gerwe</h1>
+  </div>
+  <div class="intro-container">
+    <div class="intro-text">
+      <div class="image-grid">
+        <img src="assets/IMG_5856.jpeg" alt="Image 1">
+        <img src="assets/IMG_8900.jpeg">
+        <img src="assets/top3.jpg" alt="Image 3">
+        <img src="assets/iron3.jpg" alt="Image 3">
+      </div>
+      <p>I lead the <a href="https://science.xyz/technologies/vessel/" target="_blank" rel="noopener noreferrer">Vessel</a> team at <a href="https://science.xyz/" target="_blank" rel="noopener noreferrer">Science</a> and do Ironman triathlon. 
+      <p>Vessel is building life support systems for critical care.</p> 
+      <p>Previously, I did BCI research at <a href="https://foundersfund.com/" target="_blank" rel="noopener noreferrer">Founders Fund</a> and studied biology at Yale.</p>
+      <p>My long term ambition is to build <b>perfect empathy</b>: a way to literally feel what someone else is feeling. I am currently 4% of the way there.
+      </p>
+      <p>I got into endurance sport because doctors told me I wouldn't be able to run (I have a congenital heart
+        defect).
+      </p>
+      <p>In 8 months I went from no endurance ability to qualifying for Ironman World Championships. I raced in Kona, Hawaii, on October 11th, 2025. In 2026, I'm racing Ironman Lake Placid and Ironman California.
+      <p>I shaved my head as a social experiment, only listen to hardcore EDM, regularly polar plunge, and in
+        general pursue the extremes of the human experience.</p>
+      <p>I speak 5 languages fluently and have lived in 7 countries.</p>
+      <p><b>Only dead fish go with the flow.</b></p>
+    </div>
+  </div>
+
+  <div class="social-icons-container">
+    <a href="https://x.com/GraceGerwe" target="_blank" rel="noopener noreferrer" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/gracegerwe/" target="_blank" rel="noopener noreferrer"
+      class="fa fa-linkedin"></a>
+    <a href="mailto:grace@gerwe.com" class="fa fa-envelope"></a>
+  </div>
+  <br>
+  <br>
+  </div>
+</body>
+
 </html>
