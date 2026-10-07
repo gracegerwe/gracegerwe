@@ -56,7 +56,7 @@ TEMPLATE = """<!DOCTYPE html>
   <meta name="description" content="{desc}">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site.css?v=9">
+  <link rel="stylesheet" href="assets/css/site.css?v=10">
 </head>
 
 <body>
@@ -66,6 +66,7 @@ TEMPLATE = """<!DOCTYPE html>
     </header>
 
     <article class="story">
+      <a class="back" href="/writing">&larr; All writing</a>
       <h2 class="story-heading">{title}</h2>
       <p class="story-date">{date}</p>
 {subtitle}
@@ -275,7 +276,7 @@ def row_up(blocks, per_row=3):
             if size == 1:
                 out.append(chunk[0])
             else:
-                out.append('<div class="photo-row">' + "".join(chunk) + "</div>")
+                out.append(f'<div class="photo-row photo-row-{size}">' + "".join(chunk) + "</div>")
 
     for block in blocks:
         if block.startswith("<figure"):
