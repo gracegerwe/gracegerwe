@@ -156,6 +156,7 @@ footer {
 }
 
 .stories a:hover .story-title {
+  color: var(--link-hover);
   text-decoration-color: var(--link-hover);
   text-decoration-thickness: 2px;
 }
