@@ -18,6 +18,7 @@ numbered in the order they appear in the story.
 import html as H
 import os
 import re
+import struct
 import sys
 import urllib.parse
 import urllib.request
@@ -56,7 +57,7 @@ TEMPLATE = """<!DOCTYPE html>
   <meta name="description" content="{desc}">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site.css?v=13">
+  <link rel="stylesheet" href="assets/css/site.css?v=14">
 </head>
 
 <body>
@@ -215,6 +216,42 @@ def shrink(path, widest=1400):
         image.save(path, quality=82, optimize=True)
 
 
+def image_size(path):
+    """Width and height of a JPEG or PNG, read from its header."""
+    with open(path, "rb") as handle:
+        data = handle.read()
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return struct.unpack(">II", data[16:24])
+    i = 2
+    while i < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        if marker in (0xC0, 0xC1, 0xC2):
+            height, width = struct.unpack(">HH", data[i + 5:i + 9])
+            return width, height
+        if marker in (0xD8, 0xD9) or 0xD0 <= marker <= 0xD7:
+            i += 2
+            continue
+        i += 2 + struct.unpack(">H", data[i + 2:i + 4])[0]
+    raise ValueError(f"no size in {path}")
+
+
+def is_screenshot(path):
+    """A tall picture is a phone screenshot, which cropping would ruin.
+
+    Photographs sit happily in an equal cell; a screenshot of race results
+    does not, because its whole point is the text, so it keeps its own
+    width and its own shape.
+    """
+    try:
+        width, height = image_size(path)
+    except (OSError, ValueError):
+        return False
+    return height / width >= 1.5
+
+
 def render(article, paths):
     """The article as this site's own HTML, photographs left where they were."""
     images = iter(paths)
@@ -228,7 +265,8 @@ def render(article, paths):
         if tag == "figure":
             src = next(images, None)
             if src:
-                blocks.append(f'<figure><img src="{src}" alt=""></figure>')
+                full = ' class="photo-full"' if is_screenshot(src) else ""
+                blocks.append(f"<figure{full}><img src=\"{src}\" alt=\"\"></figure>")
         elif tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
             label = run_of(block)
             if not label:
@@ -279,7 +317,10 @@ def row_up(blocks, per_row=3):
                 out.append(f'<div class="photo-row photo-row-{size}">' + "".join(c.strip() for c in chunk) + "</div>")
 
     for block in blocks:
-        if block.startswith("<figure"):
+        if block.startswith('<figure class="photo-full"'):
+            flush()
+            out.append(block)  # a screenshot keeps a row of its own
+        elif block.startswith("<figure"):
             run.append(block)
         else:
             flush()
