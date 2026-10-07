@@ -6,8 +6,8 @@
   /* body text */
   --link: #4b0082;
   /* regal purple, links */
-  --link-hover: #800020;
-  /* burgundy, when a link is hovered or clicked */
+  --link-hover: #6d28d9;
+  /* a lighter purple, when a link is hovered or clicked */
   --underline: #9d85bd;
 }
 
@@ -114,7 +114,7 @@ a {
 }
 
 a:hover,
-a:focus {
+a:focus-visible {
   color: var(--link-hover);
   text-decoration-color: var(--link-hover);
   text-decoration-thickness: 2px;
@@ -163,6 +163,26 @@ footer {
 
 .story figure {
   margin: 0 0 1.3rem;
+}
+
+/* photographs the story puts side by side stay side by side */
+.photo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.3rem;
+}
+
+.photo-row figure {
+  flex: 1 1 calc(33.333% - 0.34rem);
+  min-width: 0;
+  margin: 0;
+}
+
+.photo-row img {
+  width: 100%;
+  height: auto;
+  margin: 0;
 }
 
 .story-date {
@@ -241,5 +261,10 @@ footer {
 
   header {
     margin-bottom: 1.75rem;
+  }
+
+  /* on a phone a row of three is too small, so it breaks into two and one */
+  .photo-row figure {
+    flex: 0 1 calc(50% - 0.25rem);
   }
 }

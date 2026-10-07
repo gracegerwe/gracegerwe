@@ -56,7 +56,7 @@ TEMPLATE = """<!DOCTYPE html>
   <meta name="description" content="{desc}">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site.css?v=8">
+  <link rel="stylesheet" href="assets/css/site.css?v=9">
 </head>
 
 <body>
@@ -249,7 +249,42 @@ def render(article, paths):
             body = " ".join(filter(None, (run_of(p) for p in find(block, "p")))) or run_of(block)
             if body:
                 blocks.append(f"<blockquote><p>{body}</p></blockquote>")
-    return subtitle, blocks
+    return subtitle, row_up(blocks)
+
+
+def row_up(blocks, per_row=3):
+    """Photographs the story ran together become one horizontal row.
+
+    Medium puts consecutive stills side by side, never stacked, so a run of
+    figures is fenced into a .photo-row; a run longer than a row is split,
+    the last row holding the remainder.
+    """
+    out, run = [], []
+
+    def flush():
+        sizes = []
+        left = len(run)
+        while left > 0:
+            take = min(per_row, left)
+            if left - take == 1 and take > 2:
+                take -= 1  # a row of three then a single looks broken; 2 + 2 does not
+            sizes.append(take)
+            left -= take
+        for size in sizes:
+            chunk, run[:] = run[:size], run[size:]
+            if size == 1:
+                out.append(chunk[0])
+            else:
+                out.append('<div class="photo-row">' + "".join(chunk) + "</div>")
+
+    for block in blocks:
+        if block.startswith("<figure"):
+            run.append(block)
+        else:
+            flush()
+            out.append(block)
+    flush()
+    return out
 
 
 def build(page, title, date):
