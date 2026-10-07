@@ -2,13 +2,12 @@
 
 :root {
   --bg: #ffffff;
-  --ink: #2a1747;
-  /* dark purple, body text */
-  --ink-soft: #6d4fb0;
-  /* labels */
-  --link: #6d28d9;
-  --link-hover: #4c1d95;
-  --underline: #cbb6f5;
+  --ink: #000000;
+  /* body text */
+  --link: #4b0082;
+  /* regal purple, links */
+  --link-hover: #2d0054;
+  --underline: #9d85bd;
 }
 
 *,
@@ -18,7 +17,6 @@
 }
 
 html {
-  font-size: 16px;
   color-scheme: light;
 }
 
@@ -26,17 +24,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 15px;
-  font-weight: 400;
   line-height: 1.6;
-  letter-spacing: -0.003em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-::selection {
-  background: #e5d9ff;
 }
 
 main {
@@ -55,10 +44,8 @@ header {
 }
 
 h1 {
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
-  font-weight: 700;
   font-size: 1.05rem;
-  letter-spacing: 0.02em;
+  font-weight: 700;
   line-height: 1.2;
   margin: 0;
   color: var(--ink);
@@ -94,12 +81,11 @@ section {
 }
 
 h2 {
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
-  font-weight: 500;
-  font-size: 0.66rem;
+  font-size: 0.8rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--ink-soft);
+  letter-spacing: 0.12em;
+  color: var(--ink);
   margin: 0 0 0.6rem;
 }
 
@@ -116,7 +102,6 @@ li {
 
 li::marker {
   color: currentColor;
-  font-size: 0.9em;
 }
 
 a {
@@ -152,20 +137,12 @@ footer {
 
 .stories a {
   text-decoration: none;
-  color: var(--ink);
-}
-
-.stories a:hover .story-title {
-  color: var(--link-hover);
 }
 
 .story-title {
   display: block;
   font-size: 15px;
-  font-weight: 500;
   line-height: 1.4;
-  color: var(--ink);
-  transition: color 0.15s ease;
 }
 
 .story-date {
@@ -173,7 +150,7 @@ footer {
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin-top: 0.15rem;
 }
 
