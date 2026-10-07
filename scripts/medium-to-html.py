@@ -56,20 +56,13 @@ TEMPLATE = """<!DOCTYPE html>
   <meta name="description" content="{desc}">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site.css?v=5">
+  <link rel="stylesheet" href="assets/css/site.css?v=6">
 </head>
 
 <body>
   <main>
     <header>
       <h1><a href="/">Grace Gerwe</a></h1>
-      <div class="icons">
-        <a href="https://x.com/GraceGerwe" target="_blank" rel="noopener noreferrer" aria-label="X"
-          class="fa-brands fa-x-twitter"></a>
-        <a href="https://www.linkedin.com/in/gracegerwe/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-          class="fa-brands fa-linkedin"></a>
-        <a href="mailto:grace@gerwe.com" aria-label="Email" class="fa-solid fa-envelope"></a>
-      </div>
     </header>
 
     <article class="story">
@@ -81,6 +74,13 @@ TEMPLATE = """<!DOCTYPE html>
 
     <footer>
       <a href="/writing">Writing</a>
+      <div class="icons">
+        <a href="https://x.com/GraceGerwe" target="_blank" rel="noopener noreferrer" aria-label="X"
+          class="fa-brands fa-x-twitter"></a>
+        <a href="https://www.linkedin.com/in/gracegerwe/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+          class="fa-brands fa-linkedin"></a>
+        <a href="mailto:grace@gerwe.com" aria-label="Email" class="fa-solid fa-envelope"></a>
+      </div>
     </footer>
   </main>
 </body>

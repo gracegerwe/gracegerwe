@@ -121,6 +121,10 @@ a:focus {
 }
 
 footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
   margin-top: 2.25rem;
 }
 
