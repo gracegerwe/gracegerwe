@@ -6,7 +6,8 @@
   /* body text */
   --link: #4b0082;
   /* regal purple, links */
-  --link-hover: #2d0054;
+  --link-hover: #8a2be2;
+  /* a bright violet, so a hover is obvious */
   --underline: #9d85bd;
 }
 
@@ -116,6 +117,7 @@ a:hover,
 a:focus {
   color: var(--link-hover);
   text-decoration-color: var(--link-hover);
+  text-decoration-thickness: 2px;
 }
 
 footer {
@@ -143,6 +145,10 @@ footer {
   display: block;
   font-size: 15px;
   line-height: 1.4;
+}
+
+.story figure {
+  margin: 0 0 1.3rem;
 }
 
 .story-date {

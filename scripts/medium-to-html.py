@@ -1,55 +1,48 @@
 #!/usr/bin/env python3
-"""Turn a saved Medium story into a page on this site.
+"""Turn a saved capture of a Medium story into a page on this site.
 
-Medium blocks this host, so the text is captured elsewhere (the browser
-tools, a search backend that renders the page, or a Medium mirror) and
-saved into raw/ as markdown. This script cleans that capture and writes
-the page, so a story can be redone or fixed without touching the HTML by
-hand.
+Medium blocks this host, so the pages are captured elsewhere: raw/<page>.html
+is the whole page from a server-rendered Medium mirror (libmedium), which
+carries the story's text and its photographs in order. This script reads that
+capture, saves the photographs into assets/medium/, and writes the page, so a
+story can be redone or fixed without touching HTML by hand.
 
-Usage: python3 medium-to-html.py            # rewrites every page in raw/
-       python3 medium-to-html.py saudi      # just one, by its file name
+Usage: python3 medium-to-html.py                # every story in raw/
+       python3 medium-to-html.py saudi shave    # only these, by page name
 
-raw/<file>.md holds the capture. The first line, when it is a `# heading`,
-is the title and is dropped, because the page prints its own; a following
-`## heading` is the standfirst, printed in italics.
+The article's first heading is its standfirst, printed in italics; later ones
+are section headings. Photographs are saved as assets/medium/<page>-<n>.<ext>,
+numbered in the order they appear in the story.
 """
 
 import html as H
 import os
 import re
 import sys
+import urllib.parse
+import urllib.request
+from html.parser import HTMLParser
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, "raw")
 SITE = os.path.dirname(HERE)
+IMAGES = os.path.join(SITE, "assets", "medium")
+MIRROR = "https://libmedium.batsense.net"
+USER_AGENT = {"User-Agent": "Mozilla/5.0"}
 
-# file name in raw/ -> (page name, title, date)
+# page name -> (title, date)
 STORIES = {
-    "takeaways-from-a-free-10-day-trip-to-saudi-arabia-c695b1a7410b":
-        ("saudi", "Takeaways from a free 10-day trip to Saudi Arabia", "Feb 2024"),
-    "what-it-was-like-to-shave-my-head-8023f02fbb3e":
-        ("shave", "What it was like to shave my head", "Jan 2024"),
-    "going-from-olympic-triathlon-to-ironman-70-3-in-two-months-e6278cb5704f":
-        ("70-3", "Going from Olympic triathlon to Ironman 70.3 in two months", "Jan 2024"),
-    "ironman-florida-70-3-race-report-1e3307a60495":
-        ("florida", "Ironman Florida 70.3 Race Report", "Jan 2024"),
-    "the-month-that-triathlon-took-over-my-life-cd54849374d8":
-        ("month", "The month that triathlon took over my life", "Jan 2024"),
-    "my-vision-of-a-life-worth-living-f036d7e0d4c1":
-        ("vision", "My vision of a life worth living", "Sep 2023"),
-    "the-limits-of-human-endurance-a928d130f7b0":
-        ("endurance", "The limits of human endurance", "Mar 2023"),
-    "how-microbes-survive-in-extreme-environments-4b3b526914c3":
-        ("microbes", "How microbes survive in extreme environments", "Feb 2023"),
-    "biomimicry-d91dfdb99aef":
-        ("biomimicry", "Biomimicry", "Feb 2023"),
-    "you-can-actually-eat-too-much-protein-4d55a4af4e82":
-        ("protein", "You can actually eat too much protein", "Feb 2023"),
-    "the-grandma-hypothesis-why-does-menopause-exist-1f254215f557":
-        ("grandma", "The grandma hypothesis — why does menopause exist?", "Jan 2023"),
-    "why-we-age-and-how-to-slow-it-down-4bcbadddf20":
-        ("aging", "Why aging happens and how to slow it down", "Jan 2023"),
+    "saudi": ("Takeaways from a free 10-day trip to Saudi Arabia", "Feb 2024"),
+    "shave": ("What it was like to shave my head", "Jan 2024"),
+    "70-3": ("Going from Olympic triathlon to Ironman 70.3 in two months", "Jan 2024"),
+    "florida": ("Ironman Florida 70.3 Race Report", "Jan 2024"),
+    "month": ("The month that triathlon took over my life", "Jan 2024"),
+    "vision": ("My vision of a life worth living", "Sep 2023"),
+    "endurance": ("The limits of human endurance", "Mar 2023"),
+    "microbes": ("How microbes survive in extreme environments", "Feb 2023"),
+    "biomimicry": ("Biomimicry", "Feb 2023"),
+    "grandma": ("The grandma hypothesis — why does menopause exist?", "Jan 2023"),
+    "aging": ("Why aging happens and how to slow it down", "Jan 2023"),
 }
 
 TEMPLATE = """<!DOCTYPE html>
@@ -63,7 +56,7 @@ TEMPLATE = """<!DOCTYPE html>
   <meta name="description" content="{desc}">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site.css?v=3">
+  <link rel="stylesheet" href="assets/css/site.css?v=4">
 </head>
 
 <body>
@@ -94,133 +87,200 @@ TEMPLATE = """<!DOCTYPE html>
 
 </html>"""
 
-# the subscribe box and bylines the capture picks up from the Medium page
-CLUTTER = [
-    r"\n#+\s*Get [^\n]*stories in your inbox\s*\n",
-    r"\nJoin Medium for free[^\n]*\n?",
-    r"\n#+\s*Written by[^\n]*\n",
-]
+
+class Node:
+    def __init__(self, tag=None, attrs=None, text=None):
+        self.tag = tag
+        self.attrs = dict(attrs or {})
+        self.text = text
+        self.children = []
 
 
-# images that live with the site instead of on Medium's CDN
-IMAGES = {
-    "https://miro.medium.com/v2/resize:fit:362/1*uArHifxycQPa5a3D8CdEDg.jpeg": "assets/medium/shave.jpeg",
-}
+class Tree(HTMLParser):
+    """A capture, as a tree, so an article can be walked in its own order."""
+
+    VOID = {"img", "br", "hr", "meta", "link", "source", "input"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.root = Node("root")
+        self.stack = [self.root]
+
+    def handle_starttag(self, tag, attrs):
+        node = Node(tag, attrs)
+        self.stack[-1].children.append(node)
+        if tag not in self.VOID:
+            self.stack.append(node)
+
+    def handle_startendtag(self, tag, attrs):
+        self.stack[-1].children.append(Node(tag, attrs))
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack) - 1, 0, -1):
+            if self.stack[i].tag == tag:
+                del self.stack[i:]
+                return
+
+    def handle_data(self, data):
+        self.stack[-1].children.append(Node(text=data))
 
 
-def strip_clutter(text):
-    for pattern in CLUTTER:
-        text = re.sub(pattern, "\n", text)
-    return text
+def find(node, tag):
+    """Every node carrying this tag, below this one."""
+    found = []
+    for child in node.children:
+        if child.tag == tag:
+            found.append(child)
+        found.extend(find(child, tag))
+    return found
 
 
-def inline(text):
-    text = H.escape(text, quote=False)
-    text = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", r'<img src="\2" alt="\1">', text)
-    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
-    text = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", text)
-    text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
-    text = re.sub(r"(?<![\w*])\*([^*\n]+)\*(?![\w*])", r"<em>\1</em>", text)
-    # a bold run holding an italic run can come out as <strong>..<em>..</strong></em>
-    text = text.replace("</strong></em>", "</em></strong>")
-    return text
-
-
-def to_html(body):
+def run(node):
+    """One run of text with its links and emphasis kept, other markup dropped."""
     out = []
-    list_open = None
-    lines = body.split("\n")
-
-    def close_list():
-        nonlocal list_open
-        if list_open:
-            out.append(f"</{list_open}>")
-            list_open = None
-
-    i = 0
-    while i < len(lines):
-        line = lines[i].rstrip()
-        if not line.strip():
-            close_list()
-            i += 1
+    for child in node.children:
+        if child.text is not None:
+            out.append(H.escape(child.text, quote=False))
+        elif child.tag == "a":
+            href = H.escape(child.attrs.get("href", ""), quote=True)
+            out.append(f'<a href="{href}">{run(child)}</a>')
+        elif child.tag in ("strong", "b"):
+            out.append(f"<strong>{run(child)}</strong>")
+        elif child.tag in ("em", "i"):
+            out.append(f"<em>{run(child)}</em>")
+        elif child.tag == "img":
             continue
-        heading = re.match(r"^(#{2,4})\s+(.*)$", line)
-        if heading:
-            close_list()
-            level = min(len(heading.group(1)), 4)
-            out.append(f"<h{level}>{inline(heading.group(2).strip())}</h{level}>")
-            i += 1
-            continue
-        if re.match(r"^>\s?", line):
-            close_list()
-            quote = []
-            while i < len(lines) and re.match(r"^>\s?", lines[i]):
-                quote.append(inline(re.sub(r"^>\s?", "", lines[i]).strip()))
-                i += 1
-            out.append("<blockquote><p>" + "<br>".join(quote) + "</p></blockquote>")
-            continue
-        item = re.match(r"^\d+\.\s+(.*)$", line)
-        if item:
-            if list_open != "ol":
-                close_list()
-                out.append("<ol>")
-                list_open = "ol"
-            out.append(f"<li>{inline(item.group(1).strip())}</li>")
-            i += 1
-            continue
-        item = re.match(r"^[-*]\s+(.*)$", line)
-        if item:
-            if list_open != "ul":
-                close_list()
-                out.append("<ul>")
-                list_open = "ul"
-            out.append(f"<li>{inline(item.group(1).strip())}</li>")
-            i += 1
-            continue
-        close_list()
-        paragraph = [line.strip()]
-        i += 1
-        while i < len(lines) and lines[i].strip() and not re.match(r"^(#{2,4}\s|>\s?|\d+\.\s|[-*]\s)", lines[i]):
-            paragraph.append(lines[i].strip())
-            i += 1
-        out.append("<p>" + inline(" ".join(paragraph)) + "</p>")
-    close_list()
-    return "\n".join(out)
+        else:
+            out.append(run(child))
+    return "".join(out)
 
 
-def build(name, title, date):
-    text = strip_clutter(open(os.path.join(RAW, name + ".md")).read())
-    lines = text.split("\n")
-    while lines and not lines[0].strip():
-        lines.pop(0)
-    if lines and lines[0].startswith("# "):
-        lines.pop(0)
-    while lines and not lines[0].strip():
-        lines.pop(0)
+def run_of(node):
+    """The same, trimmed, for a node that is itself the run."""
+    return re.sub(r"\s+", " ", run(node)).strip()
+
+
+def save_images(page, urls):
+    """Keep each photograph beside the site; return the paths, in order.
+
+    Medium serves the originals, which are far larger than a page needs, so
+    each is scaled down to at most 1400 pixels wide and re-saved.
+    """
+    os.makedirs(IMAGES, exist_ok=True)
+    paths = []
+    for n, url in enumerate(urls, start=1):
+        full = url if url.startswith("http") else MIRROR + url
+        ext = os.path.splitext(urllib.parse.urlparse(full).path)[1].lower()
+        if ext not in (".jpg", ".jpeg", ".png", ".gif", ".webp"):
+            ext = ".jpg"
+        name = f"{page}-{n}{ext}"
+        target = os.path.join(IMAGES, name)
+        if not os.path.exists(target):
+            with open(target, "wb") as fh:
+                fh.write(fetch(full))
+            shrink(target)
+        paths.append(f"assets/medium/{name}")
+    return paths
+
+
+def fetch(mirror_url):
+    """The still, from Medium's own resized copy where that answers."""
+    candidates = []
+    path = urllib.parse.urlparse(mirror_url).path
+    if "/asset/medium/" in path:
+        candidates.append("https://miro.medium.com/v2/resize:fit:1400/" + path.rsplit("/", 1)[-1])
+    candidates.append(mirror_url)
+    for candidate in candidates:
+        try:
+            request = urllib.request.Request(candidate, headers=USER_AGENT)
+            with urllib.request.urlopen(request, timeout=60) as response:
+                return response.read()
+        except Exception:
+            continue
+    raise RuntimeError(f"could not fetch {mirror_url}")
+
+
+def shrink(path, widest=1400):
+    """Bring one photograph down to a size a page can use."""
+    try:
+        from PIL import Image
+    except ImportError:
+        return
+    with Image.open(path) as image:
+        if image.width <= widest:
+            return
+        height = round(image.height * widest / image.width)
+        image = image.convert("RGB").resize((widest, height), Image.LANCZOS)
+        image.save(path, quality=82, optimize=True)
+
+
+def render(article, paths):
+    """The article as this site's own HTML, photographs left where they were."""
+    images = iter(paths)
+    blocks = []
     subtitle = ""
-    if lines and lines[0].startswith("## "):
-        subtitle = inline(lines.pop(0)[3:].strip())
-    body = to_html("\n".join(lines))
-    for remote, local in IMAGES.items():
-        body = body.replace(remote, local)
-    page = TEMPLATE.format(
+
+    for block in article.children:
+        tag = block.tag
+        if not tag:
+            continue
+        if tag == "figure":
+            src = next(images, None)
+            if src:
+                blocks.append(f'<figure><img src="{src}" alt=""></figure>')
+        elif tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
+            label = run_of(block)
+            if not label:
+                continue
+            if not subtitle:
+                subtitle = label
+            else:
+                blocks.append(f"<h2>{label}</h2>" if tag in ("h1", "h2", "h3") else f"<h3>{label}</h3>")
+        elif tag == "p":
+            body = run_of(block)
+            if body:
+                blocks.append(f"<p>{body}</p>")
+        elif tag in ("ol", "ul"):
+            items = [i for i in (run_of(li) for li in find(block, "li")) if i]
+            if items:
+                fence = "ol" if tag == "ol" else "ul"
+                blocks.append(f"<{fence}>" + "".join(f"<li>{i}</li>" for i in items) + f"</{fence}>")
+        elif tag == "blockquote":
+            body = " ".join(filter(None, (run_of(p) for p in find(block, "p")))) or run_of(block)
+            if body:
+                blocks.append(f"<blockquote><p>{body}</p></blockquote>")
+    return subtitle, blocks
+
+
+def build(page, title, date):
+    html = open(os.path.join(RAW, page + ".html")).read()
+    tree = Tree()
+    tree.feed(html)
+    articles = find(tree.root, "article")
+    if not articles:
+        sys.exit(f"{page}: no article in the capture")
+    article = articles[0]
+
+    urls = [img.attrs.get("src", "") for img in find(article, "img") if img.attrs.get("src")]
+    subtitle, blocks = render(article, save_images(page, urls))
+
+    page_html = TEMPLATE.format(
         title=H.escape(title),
         date=date,
         desc=H.escape(re.sub(r"<[^>]+>", "", subtitle) or title)[:180],
         subtitle=f'      <p class="story-subtitle">{subtitle}</p>' if subtitle else "",
-        body=body,
+        body="\n".join("      " + block for block in blocks),
     )
-    target = os.path.join(SITE, STORIES[name][0] + ".html")
-    open(target, "w").write(page)
-    print("wrote", os.path.relpath(target, SITE))
+    open(os.path.join(SITE, page + ".html"), "w").write(page_html)
+    print(f"wrote {page}.html  ({len(blocks)} blocks, {len(urls)} photographs)")
 
 
 def main():
     wanted = sys.argv[1:]
-    for name, (page, title, date) in STORIES.items():
+    for page, (title, date) in STORIES.items():
         if wanted and page not in wanted:
             continue
-        build(name, title, date)
+        build(page, title, date)
 
 
 if __name__ == "__main__":
